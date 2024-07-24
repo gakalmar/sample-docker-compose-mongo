@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - ./client/src:/app/src
+      - ./client/public:/app/public
+    ports:
+      - '5173:5173'
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - ./server/src:/app/src
+      - ./server/.env:/app/.env
+    ports:
+      - '5000:5000'
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+  
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - client
+      - server
+
+volumes:
+  mongo-data:
+
+
