@@ -6,8 +6,8 @@ services:
       context: ./client
       dockerfile: Dockerfile
     volumes:
-      - ./client/src:/app/src
-      - ./client/public:/app/public
+      - /app/client/node_modules
+      - ./client:/app/client
     ports:
       - '5173:5173'
     depends_on:
@@ -18,8 +18,8 @@ services:
       context: ./server
       dockerfile: Dockerfile
     volumes:
-      - ./server/src:/app/src
-      - ./server/.env:/app/.env
+      - /app/server/node_modules
+      - ./server:/app/server
     ports:
       - '5000:5000'
     depends_on:
